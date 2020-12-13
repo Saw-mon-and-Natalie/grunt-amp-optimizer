@@ -1,7 +1,7 @@
 {
   "name": "grunt-amp-optimizer",
   "description": "A Grunt Plugin to optimize AMP HTML ⚡ at build-time.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/Saw-mon-and-Natalie/grunt-amp-optimizer",
   "author": {
     "name": "Saw-mon and Natalie",
@@ -15,6 +15,7 @@
   "bugs": {
     "url": "https://github.com/Saw-mon-and-Natalie/grunt-amp-optimizer/issues"
   },
+  "license": "MIT",
   "licenses": [
     {
       "type": "MIT",
@@ -36,11 +37,16 @@
   "keywords": [
     "gruntplugin",
     "Saw-mon and Natalie",
+    "saw-mon-and-natalie",
+    "sawmonandnatalie",
     "AMP",
     "AMP HTML",
     "HTML",
+    "grunt-amp-optimizer",
+    "amp-optimizer",
     "AMP optimizer",
-    "AMP optimization"
+    "AMP optimization",
+    "AMP optimized"
   ],
   "dependencies": {
     "@ampproject/toolbox-optimizer": "^2.7.1",
