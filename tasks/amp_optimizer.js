@@ -8,9 +8,12 @@
 
 'use strict';
 
+const AmpOptimizer = require('@ampproject/toolbox-optimizer')
+const chalk = require('chalk')
+
 module.exports = function(grunt) {
 
-  const AmpOptimizer = require('@ampproject/toolbox-optimizer')
+
 
   grunt.registerMultiTask('amp_optimizer', 'A Grunt Plugin to optimize AMP HTML ⚡ at build-time.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
@@ -20,7 +23,7 @@ module.exports = function(grunt) {
 
     const done = this.async()
 
-    
+    let promises = []
 
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
@@ -33,25 +36,49 @@ module.exports = function(grunt) {
         } else {
           return true;
         }
-      }).map(function(filepath) {
+      }).map(async function(filepath) {
         // Read file source.
         const content = grunt.file.read(filepath);
         let optimizedHTML
 
         const ampOptimizer = AmpOptimizer.create()
         optimizedHTML = await ampOptimizer.transformHtml(content, options)
-        return optimizedHTML
-      }).join(grunt.util.normalizelf(options.separator));
+        return { dest: f.dest, optimizedHTML}
+      });
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.verbose.writeln('File "' + chalk.cyan(f.dest) + '" created.');
-      done()
+      promises.push(Promise.all(src))
     });
 
-    grunt.log.ok(this.files.length + ' ' + grunt.util.pluralize(this.files.length, 'file/files') + ' created.');
+    Promise.all(promises).then( results => {
+      results.forEach((r) => {
+        let transformed = ''
+        let optimized = []
+        let d = ''
+        
+
+        r.forEach(({dest, optimizedHTML}) => {
+          d = dest
+          optimized.push(optimizedHTML)
+        })
+
+        transformed = optimized.join(options.separator)
+
+        // Write the destination file.
+        grunt.file.write(d, transformed);
+
+        // Print a success message.
+        grunt.verbose.writeln('File "' + chalk.cyan(d) + '" created.');
+        })
+
+      grunt.log.ok(this.files.length + ' ' + grunt.util.pluralize(this.files.length, 'file/files') + ' created.');
+      done()
+    })
+    .catch( err => {
+      grunt.log.error(err)
+      done(false)
+    })
+
+    
   });
 
 };

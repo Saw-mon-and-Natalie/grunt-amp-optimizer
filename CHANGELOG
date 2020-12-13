@@ -1,0 +1,4 @@
+v0.2.0:
+  date: 2020-12-12
+  changes:
+    - Initial version based on `grunt-init gruntplugin`

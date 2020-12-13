@@ -2,6 +2,8 @@
 
 > A Grunt Plugin to optimize AMP HTML ⚡ at build-time.
 
+This is a wrapper grunt plugin around [AMP Optimizer](https://github.com/ampproject/amp-toolbox/tree/main/packages/optimizer).
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 
@@ -37,46 +39,22 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
-
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
+Options are passed to [AMP Optimizer](https://github.com/ampproject/amp-toolbox/tree/main/packages/optimizer). For the complete list of options, please consult [AMP Optimizer](https://www.npmjs.com/package/@ampproject/toolbox-optimizer).
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  amp_optimizer: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### Per project options
+In this example, we pass `canonical` url to an incomplete document, the plugin would insert the missing tags. Also, the minification is disabled.
 
 ```js
 grunt.initConfig({
   amp_optimizer: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      minify: false,
+      canonical: 'https://exmaple.com'
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'dest/index.html': 'src/index.html',
     },
   },
 });
@@ -86,4 +64,9 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+
+ *  2020-12-12   v0.1.0   Initial version based on `grunt-init gruntplugin`
+
+---
+
+Task submitted by [Saw-mon and Natalie](https://www.sawmon-and-natalie.com/)
